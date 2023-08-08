@@ -12,3 +12,10 @@ def games_list(request):
     serializer = GameSerializers(game_lst, many=True)
     data = serializer.data
     return JsonResponse(data, safe=False)
+
+
+def studios(request):
+    studio_lst = Studio.objects.all()
+    serializer = StudioSerializers(studio_lst, many=True)
+    data = serializer.data
+    return JsonResponse(data, safe=False)
