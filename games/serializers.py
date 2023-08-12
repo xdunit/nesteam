@@ -12,3 +12,9 @@ class StudioSerializers(serializers.ModelSerializer):
     class Meta:
         model = Studio
         fields = '__all__'
+
+
+class GenreSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = '__all__'

@@ -3,6 +3,7 @@ from .models import *
 
 admin.site.register(Game)
 admin.site.register(Studio)
+admin.site.register(Genre)
 
 
 # Register your models here.
