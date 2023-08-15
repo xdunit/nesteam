@@ -5,6 +5,7 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 router.register(r'api-studio', StudioViewSet)
 router.register(r'genre', GenreViewSet)
+router.register(r'game-test', GameViewTest)
 
 urlpatterns = [
 

@@ -30,6 +30,8 @@ urlpatterns = [
 
     path('userapp/', include('userapp.urls')),
 
+    path('franchise/', include('franchise.urls')),
+
     path('api_schema/', get_schema_view(title='API Schema', description='test'), name='api_schema'),
     path('docs/', TemplateView.as_view(
         template_name='docs.html',

@@ -30,7 +30,7 @@ class Studio(models.Model):
     workers_count = models.PositiveIntegerField(null=False, verbose_name='Количество работников')
     games_count = models.IntegerField(default=0, verbose_name='Количество игр')
 
-    # def __str__(self):
-    #     return self.name
+    def __str__(self):
+        return self.name
 
 # Create your models here.
