@@ -1,9 +1,12 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.response import Response
+
+from .filters import GameFilter
 from .serializers import *
 from .models import *
 from rest_framework import generics
+from rest_framework.generics import ListAPIView
 
 
 # Create your views here.
@@ -74,3 +77,10 @@ class GameCreateAPIView(APIView):
                 data=response_data,
                 status=400
             )
+
+
+class GameListView(ListAPIView):
+    queryset = Game.objects.all()
+    serializer_class = GameSerializers
+    filterset_class = GameFilter
+    search_fields = ['name', 'year', 'genre', 'studio']

@@ -5,6 +5,9 @@ class Genre(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
 
+    def __str__(self):
+        return self.name
+
 
 class Game(models.Model):
     name = models.CharField(max_length=200)
@@ -22,7 +25,7 @@ class Game(models.Model):
     )
 
     def __str__(self):
-        return self.name
+        return f"{self.name} ({self.genre})"
 
 
 class Studio(models.Model):
