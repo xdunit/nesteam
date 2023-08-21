@@ -1,12 +1,15 @@
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.views import APIView
 from rest_framework.response import Response
-
+from django.db.models import Q
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from .filters import GameFilter
-from .serializers import *
+from games.serializers import GameSerializers, GenreSerializers, StudioSerializers
 from .models import *
-from rest_framework import generics
-from rest_framework.generics import ListAPIView
+from .paginations import *
+from rest_framework import generics, status
+from rest_framework.generics import ListAPIView, CreateAPIView
 
 
 # Create your views here.
@@ -43,11 +46,13 @@ class GamesView(generics.ListCreateAPIView):
 class GenreViewSet(ModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializers
+    pagination_class = GenrePagination
 
 
 class StudioViewSet(ModelViewSet):
     queryset = Studio.objects.all()
     serializer_class = StudioSerializers
+    permission_classes = [IsAuthenticated]
 
 
 class GameCreateAPIView(APIView):
@@ -84,3 +89,25 @@ class GameListView(ListAPIView):
     serializer_class = GameSerializers
     filterset_class = GameFilter
     search_fields = ['name', 'year', 'genre', 'studio']
+
+
+class GamesSearchView(APIView):
+    def get(self, request):
+        if 'key_word' in request.GET:
+            key_word = request.GET['key_word']
+        elif 'key_word' in request.data:
+            key_word = request.data['key_word']
+        else:
+            return Response('no data', status=400)
+
+        games = Game.objects.filter(
+            Q(name__icontains=key_word) |
+            Q(genre__name__icontains=key_word) |
+            Q(studio__name__icontains=key_word)
+        )
+
+        serializer = GameSerializers(instance=games, many=True)
+        json_data = serializer.data
+        return Response(data=json_data)
+
+

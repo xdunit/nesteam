@@ -20,3 +20,4 @@ class GameFilter(filters.FilterSet):
             ('studio__name', 'studio__name')
         )
     )
+

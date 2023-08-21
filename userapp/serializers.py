@@ -12,7 +12,7 @@ class UserListSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = User
-        fields = ['url', 'id', 'username', 'email', 'first_name']
+        fields = ['url', 'id', 'username', 'email']
 
 
 class PlayerSerializer(serializers.ModelSerializer):

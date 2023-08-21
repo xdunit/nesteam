@@ -3,6 +3,9 @@ from rest_framework.reverse import reverse
 from rest_framework.test import APITestCase
 from .models import *
 from .factories import *
+from rest_framework.authtoken.models import Token
+from django.contrib.auth import get_user_model
+
 
 
 class GameCreateAPITestCase(APITestCase):
@@ -98,13 +101,29 @@ class StudioCollectionTest(APITestCase):
         self.studiocol_3 = StudioFactory()
 
     def test_get_list_of_3_game_collections(self):
+        user = get_user_model().objects.create_user(username='testuser', password='testpassword')
+        token, created = Token.objects.get_or_create(user=user)
+
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {token.key}')
+
         response = self.client.get('/games/api-studio/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(self.studiocol_1.name, response.data[0]['name'])
         self.assertEqual(self.studiocol_2.name, response.data[1]['name'])
         self.assertEqual(self.studiocol_3.name, response.data[2]['name'])
 
+    # def test_get_one_game_collection(self):
+    #     self.client.force_authenticate(user=None)
+    #     response = self.client.get(f'/games/api-studio/{self.studiocol_1.pk}/')
+    #     self.assertEqual(response.status_code, 200)
+    #     self.assertEqual(self.studiocol_1.name, response.data['name'])
+
     def test_get_one_game_collection(self):
+        user = get_user_model().objects.create_user(username='testuser', password='testpassword')
+        token, created = Token.objects.get_or_create(user=user)
+
+        self.client.credentials(HTTP_AUTHORIZATION=f'Token {token.key}')
+
         response = self.client.get(f'/games/api-studio/{self.studiocol_1.pk}/')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(self.studiocol_1.name, response.data['name'])

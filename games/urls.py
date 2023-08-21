@@ -1,4 +1,6 @@
 from django.urls import path, include
+
+
 from .views import *
 from rest_framework import routers
 
@@ -18,8 +20,12 @@ urlpatterns = [
 
     path('create-game-api/', GameCreateAPIView.as_view(), name='create_game'),
 
+    path('games-search/', GamesSearchView.as_view(), name='games-search'),
+
     path('sorter/', GameListView.as_view()),
 
     path('', include(router.urls)),
+
+
 
 ]
