@@ -65,9 +65,12 @@ class GameCollectionTest(APITestCase):
     def test_get_list_of_3_game_collections(self):
         response = self.client.get('/games/game-test/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(self.gcol_1.name, response.data[0]['name'])
-        self.assertEqual(self.gcol_2.name, response.data[1]['name'])
-        self.assertEqual(self.gcol_3.name, response.data[2]['name'])
+
+        results = response.data['results']
+
+        self.assertEqual(self.gcol_1.name, results[0]['name'])
+        self.assertEqual(self.gcol_2.name, results[1]['name'])
+        self.assertEqual(self.gcol_3.name, results[2]['name'])
 
     def test_get_one_game_collection(self):
         response = self.client.get(f'/games/game-test/{self.gcol_1.pk}/')
@@ -84,9 +87,14 @@ class GenreCollectionTest(APITestCase):
     def test_get_list_of_3_game_collections(self):
         response = self.client.get('/games/genre/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(self.genrecol_1.name, response.data[0]['name'])
-        self.assertEqual(self.genrecol_2.name, response.data[1]['name'])
-        self.assertEqual(self.genrecol_3.name, response.data[2]['name'])
+
+        results = response.data['results']
+
+        self.assertEqual(self.genrecol_1.name, results[0]['name'])
+        self.assertEqual(self.genrecol_2.name, results[1]['name'])
+        self.assertEqual(self.genrecol_3.name, results[2]['name'])
+        if len(results) >= 3:
+            self.assertEqual(self.genrecol_3.name, results[2]['name'])
 
     def test_get_one_game_collection(self):
         response = self.client.get(f'/games/genre/{self.genrecol_1.pk}/')
@@ -108,9 +116,12 @@ class StudioCollectionTest(APITestCase):
 
         response = self.client.get('/games/api-studio/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(self.studiocol_1.name, response.data[0]['name'])
-        self.assertEqual(self.studiocol_2.name, response.data[1]['name'])
-        self.assertEqual(self.studiocol_3.name, response.data[2]['name'])
+
+        results = response.data['results']
+
+        self.assertEqual(self.studiocol_1.name, results[0]['name'])
+        self.assertEqual(self.studiocol_2.name, results[1]['name'])
+        self.assertEqual(self.studiocol_3.name, results[2]['name'])
 
     # def test_get_one_game_collection(self):
     #     self.client.force_authenticate(user=None)

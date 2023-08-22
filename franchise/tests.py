@@ -19,9 +19,12 @@ class CollectionTest(APITestCase):
     def test_get_list_of_3_collections(self):
         response = self.client.get('/franchise/collection/')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(self.col_1.name, response.data[0]['name'])
-        self.assertEqual(self.col_2.name, response.data[1]['name'])
-        self.assertEqual(self.col_3.name, response.data[2]['name'])
+
+        results = response.data['results']
+
+        self.assertEqual(self.col_1.name, results[0]['name'])
+        self.assertEqual(self.col_2.name, results[1]['name'])
+        self.assertEqual(self.col_3.name, results[2]['name'])
 
     def test_get_one_collection(self):
         response = self.client.get(f'/franchise/collection/{self.col_1.pk}/')

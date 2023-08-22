@@ -8,6 +8,9 @@ class Genre(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        ordering = ['id']
+
 
 class Game(models.Model):
     name = models.CharField(max_length=200)
@@ -26,6 +29,9 @@ class Game(models.Model):
 
     def __str__(self):
         return f"{self.name} ({self.genre})"
+
+    class Meta:
+        ordering = ['id']
 
 
 class Studio(models.Model):

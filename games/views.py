@@ -7,7 +7,7 @@ from rest_framework.authentication import SessionAuthentication, BasicAuthentica
 from .filters import GameFilter
 from games.serializers import GameSerializers, GenreSerializers, StudioSerializers
 from .models import *
-from .paginations import *
+from games.paginations import GenrePagination
 from rest_framework import generics, status
 from rest_framework.generics import ListAPIView, CreateAPIView
 
@@ -50,7 +50,7 @@ class GenreViewSet(ModelViewSet):
 
 
 class StudioViewSet(ModelViewSet):
-    queryset = Studio.objects.all()
+    queryset = Studio.objects.all().order_by('id')
     serializer_class = StudioSerializers
     permission_classes = [IsAuthenticated]
 
